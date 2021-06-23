@@ -571,6 +571,138 @@
         "84": {
             "name": "Tracked Space",
             "parent": "14"
+        },
+        "89": {
+            "name": "Sphere",
+            "parent": "32",
+            "components": [
+                {
+                    "type": "mesh",
+                    "mesh": {
+                        "mesh": "90",
+                        "material": "22"
+                    }
+                }
+            ],
+            "transformation": [
+                1.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                1.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                1.0,
+                0.0,
+                -1.3432084321975709,
+                0.0,
+                -4.15294361114502,
+                1.0
+            ]
+        },
+        "91": {
+            "link": {
+                "name": "flatSPhere",
+                "file": "assets\\models\\flatSphere.glb"
+            },
+            "parent": "89",
+            "deleted": true
+        },
+        "92": {
+            "name": "Sphere",
+            "parent": "32",
+            "components": [
+                {
+                    "type": "mesh",
+                    "mesh": {
+                        "mesh": "90",
+                        "material": "25"
+                    }
+                }
+            ],
+            "transformation": [
+                1.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                1.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                1.0,
+                0.0,
+                1.360233783721924,
+                0.0,
+                -4.15294361114502,
+                1.0
+            ]
+        },
+        "93": {
+            "name": "Sphere",
+            "parent": "32",
+            "components": [
+                {
+                    "type": "mesh",
+                    "mesh": {
+                        "mesh": "90",
+                        "material": "26"
+                    }
+                }
+            ],
+            "transformation": [
+                1.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                1.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                1.0,
+                0.0,
+                0.07377353310585022,
+                0.0,
+                -6.014103412628174,
+                1.0
+            ]
+        },
+        "94": {
+            "name": "Sphere",
+            "parent": "32",
+            "components": [
+                {
+                    "type": "mesh",
+                    "mesh": {
+                        "mesh": "90",
+                        "material": "93"
+                    }
+                }
+            ],
+            "transformation": [
+                1.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                1.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                1.0,
+                0.0,
+                0.07377353310585022,
+                0.0,
+                -2.066504716873169,
+                1.0
+            ]
         }
     },
     "meshes": {
@@ -692,6 +824,12 @@
             "link": {
                 "name": "Mesh.008",
                 "file": "assets\\models\\quest_controllers_credits_Jezza3D.glb"
+            }
+        },
+        "90": {
+            "link": {
+                "name": "Icosphere",
+                "file": "assets\\models\\flatSphere.glb"
             }
         }
     },
@@ -817,6 +955,128 @@
         "66": {
             "name": "Flat",
             "pipeline": "72"
+        },
+        "90": {
+            "name": "Inverted",
+            "pipeline": "85",
+            "Phong": {
+                "ambientColor": [
+                    0.7098039388656616,
+                    0.7097968459129334,
+                    0.7097968459129334,
+                    1.0
+                ],
+                "diffuseColor": [
+                    1.0,
+                    0.9999899864196776,
+                    0.9999899864196776,
+                    0.6549019813537598
+                ],
+                "specularColor": [
+                    1.0,
+                    0.9999899864196776,
+                    0.9999899864196776,
+                    0.0
+                ]
+            }
+        },
+        "91": {
+            "name": "Crystal",
+            "pipeline": "86",
+            "Phong": {
+                "ambientColor": [
+                    0.32553631067276,
+                    0.49742791056633,
+                    0.8470588326454163,
+                    1.0
+                ],
+                "diffuseColor": [
+                    0.0,
+                    0.5471394658088684,
+                    0.9686274528503418,
+                    1.0
+                ],
+                "specularColor": [
+                    0.5803921818733215,
+                    0.27843138575553896,
+                    0.9529411792755128,
+                    0.1568627506494522
+                ],
+                "emissiveColor": [
+                    0.09019608050584792,
+                    0.1137254908680916,
+                    0.3294117748737335,
+                    0.0
+                ]
+            }
+        },
+        "92": {
+            "name": "Soft Inverted",
+            "pipeline": "87",
+            "Phong": {
+                "ambientColor": [
+                    0.8416851162910461,
+                    0.5606459379196167,
+                    0.9725490212440492,
+                    1.0
+                ],
+                "diffuseColor": [
+                    0.817293107509613,
+                    0.40063050389289858,
+                    0.9372549057006836,
+                    0.6823529601097107
+                ],
+                "specularColor": [
+                    1.0,
+                    0.9999899864196776,
+                    0.9999899864196776,
+                    0.0
+                ],
+                "emissiveColor": [
+                    0.09019608050584792,
+                    0.1137254908680916,
+                    0.3294117748737335,
+                    0.0
+                ]
+            }
+        },
+        "93": {
+            "name": "Seppia",
+            "pipeline": "88",
+            "Phong": {
+                "ambientColor": [
+                    0.8627381920814514,
+                    0.8627451062202454,
+                    0.8627364635467529,
+                    1.0
+                ],
+                "diffuseColor": [
+                    0.7294043898582459,
+                    0.7294117212295532,
+                    0.7294059991836548,
+                    1.0
+                ],
+                "specularColor": [
+                    1.0,
+                    1.0,
+                    1.0,
+                    0.0
+                ],
+                "emissiveColor": [
+                    0.09019608050584792,
+                    0.1137254908680916,
+                    0.3294117748737335,
+                    0.0
+                ]
+            }
+        },
+        "94": {
+            "name": "Flat",
+            "pipeline": "72"
+        },
+        "95": {
+            "name": "Flat",
+            "pipeline": "72"
         }
     },
     "shaders": {
@@ -902,9 +1162,9 @@
         },
         "rendering": {
             "clearColor": [
-                0.9215686321258544,
-                0.9215686321258544,
-                0.9215686321258544,
+                0.9960784316062927,
+                0.9043979048728943,
+                0.5859284400939941,
                 1.0
             ]
         },
@@ -915,7 +1175,8 @@
     "animations": {},
     "skins": {},
     "files": [
-        "assets/models/quest_controllers_credits_Jezza3D.glb"
+        "assets/models/quest_controllers_credits_Jezza3D.glb",
+        "assets/models/flatSphere.glb"
     ],
     "pipelines": {
         "69": {
@@ -958,6 +1219,9 @@
             "link": {
                 "name": "Foliage",
                 "file": "default"
+            },
+            "features": {
+                "ALPHA": false
             }
         },
         "83": {
@@ -965,6 +1229,92 @@
                 "name": "Particle",
                 "file": "default"
             }
+        },
+        "85": {
+            "link": {
+                "name": "Phong Opaque",
+                "file": "default"
+            },
+            "name": "Inverted",
+            "features": {
+                "ALPHA": true,
+                "ALPHA_MASKED": true
+            },
+            "blending": true,
+            "sampleAlphaToCoverage": false,
+            "blendDest": "one",
+            "blendSrc": "one",
+            "blendEqRgb": "subtract"
+        },
+        "86": {
+            "link": {
+                "name": "Phong Opaque",
+                "file": "default"
+            },
+            "name": "Crystal",
+            "features": {
+                "ALPHA": true,
+                "ALPHA_MASKED": true,
+                "WITH_FOG": true
+            },
+            "blending": true,
+            "sampleAlphaToCoverage": false,
+            "blendDest": "one",
+            "blendSrc": "one",
+            "blendEqRgb": "max",
+            "doubleSided": false,
+            "shader": "77"
+        },
+        "87": {
+            "link": {
+                "name": "Phong Opaque",
+                "file": "default"
+            },
+            "name": "Soft Inverted",
+            "features": {
+                "ALPHA": true,
+                "ALPHA_MASKED": true,
+                "WITH_FOG": true
+            },
+            "blending": true,
+            "sampleAlphaToCoverage": false,
+            "blendDest": "destination color",
+            "blendSrc": "one minus destination color",
+            "blendEqRgb": "add",
+            "doubleSided": false
+        },
+        "88": {
+            "link": {
+                "name": "Phong Opaque",
+                "file": "default"
+            },
+            "name": "Seppia",
+            "features": {
+                "ALPHA": true,
+                "ALPHA_MASKED": true,
+                "WITH_FOG": true
+            },
+            "blending": true,
+            "sampleAlphaToCoverage": false,
+            "blendDest": "destination color",
+            "blendSrc": "one minus source color",
+            "blendEqRgb": "add",
+            "doubleSided": false
+        },
+        "89": {
+            "link": {
+                "name": "Phong Opaque",
+                "file": "default"
+            },
+            "name": "Default Alpha",
+            "shader": "77",
+            "features": {
+                "ALPHA": true,
+                "ALPHA_MASKED": true,
+                "WITH_FOG": true,
+                "TEXTURED": false
+            },
+            "doubleSided": false
         }
     }
 }
