@@ -320,6 +320,14 @@
             "components": [
                 {
                     "type": "gamepads-manager"
+                },
+                {
+                    "type": "mescolato",
+                    "mescolato": {
+                        "_mySphereMesh": "90",
+                        "_myDomeSphereMaterial": "102",
+                        "_mySnakeSphereMaterial_1": "103"
+                    }
                 }
             ]
         },
@@ -580,7 +588,7 @@
                     "type": "mesh",
                     "mesh": {
                         "mesh": "90",
-                        "material": "90"
+                        "material": "103"
                     }
                 }
             ],
@@ -722,7 +730,7 @@
                 1.0,
                 0.0,
                 -1.3432084321975709,
-                -1.1611095666885377,
+                -1.1611096858978272,
                 -3.8174893856048586,
                 1.0
             ]
@@ -752,8 +760,9 @@
                 {
                     "type": "set-hierarchy-active",
                     "set-hierarchy-active": {
-                        "_myHierarchyActive": true
-                    }
+                        "_myHierarchyActive": false
+                    },
+                    "active": true
                 }
             ]
         },
@@ -814,7 +823,7 @@
                 1.0,
                 0.0,
                 2.6929566860198976,
-                0.00016587703430559486,
+                0.00016587786376476288,
                 -1.2059657573699952,
                 1.0
             ]
@@ -827,7 +836,7 @@
                     "type": "mesh",
                     "mesh": {
                         "mesh": "90",
-                        "material": "99"
+                        "material": "102"
                     }
                 }
             ],
@@ -1138,15 +1147,15 @@
             "pipeline": "86",
             "Phong": {
                 "ambientColor": [
-                    0.5294064879417419,
-                    0.52940833568573,
-                    0.529411792755127,
+                    0.47058820724487307,
+                    0.654991626739502,
+                    1.0,
                     1.0
                 ],
                 "diffuseColor": [
-                    0.5137203931808472,
-                    0.5137255191802979,
-                    0.5137203931808472,
+                    0.2504728734493256,
+                    0.4406131207942963,
+                    0.7176470756530762,
                     1.0
                 ],
                 "specularColor": [
@@ -1298,6 +1307,42 @@
                     1.0
                 ]
             }
+        },
+        "102": {
+            "name": "Dome Sphere",
+            "pipeline": "78",
+            "Phong": {
+                "diffuseColor": [
+                    0.06666667014360428,
+                    0.5411764979362488,
+                    0.6980392336845398,
+                    1.0
+                ],
+                "ambientColor": [
+                    0.04279891774058342,
+                    0.36725282669067385,
+                    0.4745097756385803,
+                    1.0
+                ]
+            }
+        },
+        "103": {
+            "name": "Snake Sphere 1",
+            "pipeline": "85",
+            "Phong": {
+                "diffuseColor": [
+                    0.9999899864196776,
+                    0.9999974966049194,
+                    1.0,
+                    1.0
+                ],
+                "ambientColor": [
+                    0.6980322003364563,
+                    0.6980375647544861,
+                    0.698039174079895,
+                    1.0
+                ]
+            }
         }
     },
     "shaders": {
@@ -1356,7 +1401,7 @@
             "version": [
                 0,
                 8,
-                5
+                6
             ]
         },
         "vr": {
@@ -1373,7 +1418,8 @@
                 "js/pp/tool/easy-tune",
                 "js/pp/gameplay/grab_throw",
                 "js/pp/input/cauldron",
-                "js/pp/input/gamepad"
+                "js/pp/input/gamepad",
+                "js/mescolato"
             ]
         },
         "editor": {
