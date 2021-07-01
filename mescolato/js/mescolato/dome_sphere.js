@@ -1,8 +1,8 @@
 class DomeSphere {
     constructor(position, scale, color) {
-        this._myPosition = position.slice(0);
-        this._myScale = scale.slice(0);
-        this._myColor = color.slice(0);
+        this._myPosition = position;
+        this._myScale = scale;
+        this._myColor = color;
 
         this._myPhase = null;
     }

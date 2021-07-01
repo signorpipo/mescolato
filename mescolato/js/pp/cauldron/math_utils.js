@@ -84,5 +84,28 @@ PP.MathUtils = {
         glMatrix.quat2.mul(worldTransform, parentTransform, localTransform);
 
         return worldTransform;
+    },
+    multiply(vector, axis, angle) {
+        let quaternionRotation = glMatrix.quat.create();
+        glMatrix.quat.setAxisAngle(quaternionRotation, axis, angle);
+        let matrixRotation = glMatrix.mat3.create();
+        glMatrix.mat3.fromQuat(matrixRotation, quaternionRotation);
+    },
+    rotateVectorAroundAxis(vector, axis, angle, origin) {
+        if (!origin) {
+            origin = [0, 0, 0];
+        }
+
+        glMatrix.vec3.sub(vector, vector, origin);
+
+        let rotatedVector = [];
+
+        let quaternionRotation = glMatrix.quat.create();
+        glMatrix.quat.setAxisAngle(quaternionRotation, axis, angle);
+        glMatrix.vec3.transformQuat(rotatedVector, vector, quaternionRotation);
+
+        glMatrix.vec3.add(rotatedVector, rotatedVector, origin);
+
+        return rotatedVector;
     }
 };
