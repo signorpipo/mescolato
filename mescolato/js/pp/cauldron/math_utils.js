@@ -107,5 +107,10 @@ PP.MathUtils = {
         glMatrix.vec3.add(rotatedVector, rotatedVector, origin);
 
         return rotatedVector;
+    },
+    mapToInterval(value, originIntervalLeft, originIntervalRight, newIntervalLeft, newIntervalRight) {
+        let newValue = newIntervalLeft + ((newIntervalRight - newIntervalLeft / (originIntervalRight - originIntervalLeft))) * (value - originIntervalLeft);
+
+        return newValue;
     }
 };

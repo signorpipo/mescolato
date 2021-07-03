@@ -1,10 +1,13 @@
 class DomeSphere {
-    constructor(position, scale, color) {
+    constructor(position, scale, color, timeToComplete) {
         this._myPosition = position;
         this._myScale = scale;
         this._myColor = color;
+        this._myTimeToComplete = timeToComplete;
 
         this._myPhase = null;
+
+        this._myTimer = 0;
     }
 
     start() {
@@ -23,6 +26,8 @@ class DomeSphere {
         this._mySphereObject.scale([0, 0, 0]);
         this._mySphereObject.setTranslationWorld([0, 0, 0]);
 
+        this._myTimer = 0;
+
         this._myPhase = DomeSpherePhase.MOVING;
     }
 
@@ -38,10 +43,33 @@ class DomeSphere {
     }
 
     _moving(dt) {
+        let percentageComplete = this._myTimer / this._myTimeToComplete;
+
+        let percentagePosition = (Math.sin(percentageComplete * Math.PI / 6 + Math.PI / 3) - Math.sin(Math.PI / 3)) / (1 - Math.sin(Math.PI / 3));
+        let percentageScale = (Math.sin(percentageComplete * Math.PI / 6 + Math.PI / 3) - Math.sin(Math.PI / 3)) / (1 - Math.sin(Math.PI / 3));
+
+        let currentPosition = glMatrix.vec3.create();
+        glMatrix.vec3.copy(currentPosition, this._myPosition);
+        glMatrix.vec3.scale(currentPosition, currentPosition, percentagePosition);
+
+        //console.log(percentagePosition, currentPosition);
+
+        let currentScale = glMatrix.vec3.create();
+        glMatrix.vec3.copy(currentScale, this._myScale);
+        glMatrix.vec3.scale(currentScale, currentScale, percentageScale);
+
         this._mySphereObject.resetScaling();
-        this._mySphereObject.scale(this._myScale);
-        this._mySphereObject.setTranslationWorld(this._myPosition);
-        this._myPhase = DomeSpherePhase.DONE;
+        this._mySphereObject.scale(currentScale);
+        this._mySphereObject.setTranslationWorld(currentPosition);
+
+        this._myTimer += dt;
+
+        if (this._myTimer >= this._myTimeToComplete) {
+            this._mySphereObject.resetScaling();
+            this._mySphereObject.scale(this._myScale);
+            this._mySphereObject.setTranslationWorld(this._myPosition);
+            this._myPhase = DomeSpherePhase.DONE;
+        }
     }
 
     _done(dt) {

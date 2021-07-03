@@ -13,8 +13,8 @@ class SpheresDome {
 
         this._myCurrentTimer = 0;
 
-        //Setup
-        this._myTimeBetweenSphere = 0.01;
+        this._myCurrentTimeBetweenSphere = 0;
+        this._mySpawnCounter = 0;
     }
 
     start() {
@@ -35,21 +35,38 @@ class SpheresDome {
     }
 
     _spawn(dt) {
+        let spheresToSpawnAtTimeout = 6;
+
         this._myCurrentTimer += dt;
-        if (this._myCurrentTimer > this._myTimeBetweenSphere) {
+        if (this._myCurrentTimer > this._myCurrentTimeBetweenSphere) {
             this._myCurrentTimer = 0;
 
-            let randomIndex = Math.floor(Math.random() * this._mySpheresToSpawn.length);
-            randomIndex = 0;
-            let sphereToSpawn = this._mySpheresToSpawn[randomIndex];
-            this._mySpheresToSpawn.splice(randomIndex, 1);
+            for (let i = 0; i < spheresToSpawnAtTimeout && this._mySpheresToSpawn.length > 0; i++) {
+                let randomIndex = Math.floor(Math.random() * this._mySpheresToSpawn.length);
+                let sphereToSpawn = this._mySpheresToSpawn[randomIndex];
+                this._mySpheresToSpawn.splice(randomIndex, 1);
 
-            this._mySpheres.push(sphereToSpawn);
-            sphereToSpawn.start();
+                this._mySpheres.push(sphereToSpawn);
+                sphereToSpawn.start();
+            }
 
             if (this._mySpheresToSpawn.length == 0) {
                 this._myPhase = SpheresDomePhase.DONE;
             }
+
+            this._mySpawnCounter++;
+
+            let minTimeBetweenSphere = 0.015;
+            let maxTimeBetweenSphere = 1;
+            let spawnToReachMinTime = 15;
+
+            this._mySpawnCounter = Math.min(this._mySpawnCounter, spawnToReachMinTime);
+
+            this._myCurrentTimeBetweenSphere = Math.cos((Math.PI / 6) * (this._mySpawnCounter / spawnToReachMinTime));
+            this._myCurrentTimeBetweenSphere = PP.MathUtils.mapToInterval(this._myCurrentTimeBetweenSphere, 1, Math.cos(Math.PI / 6), 1, 0);
+            this._myCurrentTimeBetweenSphere = (this._myCurrentTimeBetweenSphere * (maxTimeBetweenSphere - minTimeBetweenSphere)) + minTimeBetweenSphere;
+
+            console.log(this._myCurrentTimeBetweenSphere);
         }
 
         for (let sphere of this._mySpheres) {
@@ -71,14 +88,20 @@ class SpheresDome {
         this._mySpheres = [];
         this._mySpheresToSpawn = [];
 
-        let cloves = 48;
+        let cloves = 64;
         let angleForClove = Math.PI * 2 / cloves;
-        let minDistance = 20;
-        let maxDistance = 50;
+
+        let minDistance = 30;
+        let maxDistance = 60;
+
         let minExtraRotation = 0;
         let maxExtraRotation = PP.MathUtils.toRadians(10);
-        let minScale = 1.5;
-        let maxScale = 3.5;
+
+        let minScale = 0.5;
+        let maxScale = 1.5;
+
+        let minTimeToComplete = 0.5;
+        let maxTimeToComplete = 1;
 
         let upDirection = [0, 1, 0];
         let horizontalDirection = [0, 0, -1];
@@ -106,9 +129,10 @@ class SpheresDome {
                     let sphereScale = Math.random() * (maxScale - minScale) + minScale;
                     let sphereColorIndex = Math.floor(Math.random() * this._myColors.length);
 
-                    let sphere = new DomeSphere(sphereDirection, [sphereScale, sphereScale, sphereScale], this._myColors[sphereColorIndex]);
-                    this._mySpheresToSpawn.push(sphere);
+                    let timeToComplete = Math.random() * (maxTimeToComplete - minTimeToComplete) + minTimeToComplete;
 
+                    let sphere = new DomeSphere(sphereDirection, [sphereScale, sphereScale, sphereScale], this._myColors[sphereColorIndex], timeToComplete);
+                    this._mySpheresToSpawn.push(sphere);
                 }
 
                 verticalDirection = PP.MathUtils.rotateVectorAroundAxis(verticalDirection, rotationAxis, angleForClove);
