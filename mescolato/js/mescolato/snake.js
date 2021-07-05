@@ -1,13 +1,140 @@
 class Snake {
     constructor() {
 
+        this._myTimer = 0;
+
+        this._myPhase = null;
+
+        //Setup
+        this._myWaitBeforeSpawnDelay = 5;
+        this._mySpawnDelayList = [0, 5, 4, 3];
+    }
+
+    start() {
+        this._myPhase = SnakePhase.ECHO;
+
+        this._mySnakeObject = WL.scene.addObject(GlobalData.RootObject);
+
+        this._mySnakeObjectAudio = this._mySnakeObject.addComponent("custom-howler-audio-source", { "src": "assets/audio/snake_echo.mp3" });
+        let pitch = Math.random() * (1.1 - 0.9) + 0.9;
+        this._mySnakeObjectAudio.pitch(pitch);
+
+        this._mySnakeSpheresToSpawn = [];
+        this._mySnakeSpheres = [];
+
+        let distanceList = [0, 300, 200, 130];
+        let spawnTimeList = [4, 3, 2, 1];
+        let scaleList = [1];
+        for (let i = 1; i < 4; i++) {
+            scaleList[i] = scaleList[i - 1] * 2 / 3;
+        }
+
+        for (let i = 0; i < 4; i++) {
+            let object = this._mySnakeObject;
+            if (i > 0) {
+                object = this._mySnakeSpheresToSpawn[i - 1].getObject();
+            }
+
+            let snakeSphere = new SnakeSphere(GlobalData.mySnakeSphereMaterialList[i], [scaleList[i], scaleList[i], scaleList[i]], object, distanceList[i], spawnTimeList[i]);
+            snakeSphere.start();
+            this._mySnakeSpheresToSpawn.push(snakeSphere);
+        }
+
     }
 
     update(dt) {
+        switch (this._myPhase) {
+            case SnakePhase.ECHO:
+                this._echo(dt);
+                break;
+            case SnakePhase.WAIT_BEFORE_SPAWN:
+                this._waitBeforeSpawn(dt);
+                break;
+            case SnakePhase.SPAWN:
+                this._spawn(dt);
+                break;
+            case SnakePhase.DONE:
+                this._done(dt);
+                break;
+        }
 
+        if (this._myPhase >= SnakePhase.SPAWN) {
+            this._mySnakeObject.translate([0, 0.01, 0]);
+        }
+    }
+
+    _echo(dt) {
+        let minDistance = 7;
+        let maxDistance = 14;
+
+        let x = Math.random() * (maxDistance - minDistance) + minDistance;
+        let y = Math.random() * (maxDistance - minDistance) + minDistance;
+        let z = Math.random() * (maxDistance - minDistance) + minDistance;
+
+        x *= (Math.random() < 0.5) ? -1 : 1;
+        y *= (Math.random() < 0.5) ? -1 : 1;
+        z *= (Math.random() < 0.5) ? -1 : 1;
+
+        this._mySnakeObject.setTranslationWorld([x, y, z]);
+        this._mySnakeObjectAudio.play();
+
+        this._myPhase = SnakePhase.WAIT_BEFORE_SPAWN;
+        this._myTimer = 0;
+
+        for (let sphere of this._mySnakeSpheresToSpawn) {
+            sphere.update(dt);
+        }
+    }
+
+    _waitBeforeSpawn(dt) {
+        this._myTimer += dt;
+        if (this._myTimer > this._myWaitBeforeSpawnDelay) {
+            this._myPhase = SnakePhase.SPAWN;
+            this._myTimer = 0;
+
+            this._mySnakeObject.setTranslationWorld([0, 0, -7]);
+        }
+
+        for (let sphere of this._mySnakeSpheresToSpawn) {
+            sphere.update(dt);
+        }
+    }
+
+    _spawn(dt) {
+        this._myTimer += dt;
+        if (this._myTimer > this._mySpawnDelayList[this._mySnakeSpheres.length]) {
+            this._myTimer = 0;
+            let sphere = this._mySnakeSpheresToSpawn.shift();
+            sphere.spawn();
+            this._mySnakeSpheres.push(sphere);
+
+            if (this._mySnakeSpheresToSpawn.length == 0) {
+                this._myPhase = SnakePhase.DONE;
+            }
+        }
+
+        for (let sphere of this._mySnakeSpheresToSpawn) {
+            sphere.update(dt);
+        }
+        for (let sphere of this._mySnakeSpheres) {
+            sphere.update(dt);
+        }
+    }
+
+    _done(dt) {
+        for (let sphere of this._mySnakeSpheres) {
+            sphere.update(dt);
+        }
     }
 
     isDone() {
-        return false;
+        return this._myPhase == SnakePhase.DONE;
     }
 }
+
+var SnakePhase = {
+    ECHO: 0,
+    WAIT_BEFORE_SPAWN: 1,
+    SPAWN: 2,
+    DONE: 3
+};

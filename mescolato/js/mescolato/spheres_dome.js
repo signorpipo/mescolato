@@ -19,7 +19,7 @@ class SpheresDome {
 
         //Setup
 
-        this._myUseAudioDelay = 0.2;
+        this._myUseAudioDelay = 0.11;
     }
 
     start() {
@@ -42,7 +42,7 @@ class SpheresDome {
     }
 
     _spawn(dt) {
-        let spheresToSpawnAtTimeout = 5;
+        let spheresToSpawnAtTimeout = 6;
 
         this._myCurrentTimer += dt;
         this._myUseAudioTimer += dt;

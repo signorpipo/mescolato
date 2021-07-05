@@ -329,7 +329,10 @@
                     "mescolato": {
                         "_mySphereMesh": "90",
                         "_myDomeSphereMaterial": "102",
-                        "_mySnakeSphereMaterial_1": "103"
+                        "_mySnakeSphereMaterial_1": "103",
+                        "_mySnakeSphereMaterial_2": "93",
+                        "_mySnakeSphereMaterial_3": "92",
+                        "_mySnakeSphereMaterial_4": "91"
                     }
                 },
                 {
@@ -1469,7 +1472,7 @@
             ]
         },
         "runtime": {
-            "xrButtonColor": "black"
+            "xrButtonColor": "RebeccaPurple"
         }
     },
     "animations": {},

@@ -2,6 +2,9 @@ WL.registerComponent('mescolato', {
     _mySphereMesh: { type: WL.Type.Mesh },
     _myDomeSphereMaterial: { type: WL.Type.Material },
     _mySnakeSphereMaterial_1: { type: WL.Type.Material },
+    _mySnakeSphereMaterial_2: { type: WL.Type.Material },
+    _mySnakeSphereMaterial_3: { type: WL.Type.Material },
+    _mySnakeSphereMaterial_4: { type: WL.Type.Material },
 }, {
     init: function () {
         GlobalData.myRootObject = WL.scene.addObject(this.object);
@@ -9,10 +12,16 @@ WL.registerComponent('mescolato', {
         GlobalData.myDomeSphereMaterial = this._myDomeSphereMaterial;
         GlobalData.mySnakeSphereMaterialList = [];
         GlobalData.mySnakeSphereMaterialList.push(this._mySnakeSphereMaterial_1);
+        GlobalData.mySnakeSphereMaterialList.push(this._mySnakeSphereMaterial_2);
+        GlobalData.mySnakeSphereMaterialList.push(this._mySnakeSphereMaterial_3);
+        GlobalData.mySnakeSphereMaterialList.push(this._mySnakeSphereMaterial_4);
     },
     start: function () {
-        this._myWait1Timer = 5;
-        this._myWait2Timer = 1;
+        //this._myWait1Timer = 5;
+        //this._myWait2Timer = 8;
+
+        this._myWait1Timer = 1;
+        this._myWait2Timer = 3;
 
         this._mySphereDome = new SpheresDome();
         this._mySnake = new Snake();
@@ -66,6 +75,7 @@ WL.registerComponent('mescolato', {
         this._myWait2Timer -= dt;
         if (this._myWait2Timer <= 0) {
             this._myPhase = MescolatoPhase.SNAKE;
+            this._mySnake.start();
         }
     },
     _snake: function (dt) {
