@@ -331,6 +331,10 @@
                         "_myDomeSphereMaterial": "102",
                         "_mySnakeSphereMaterial_1": "103"
                     }
+                },
+                {
+                    "type": "mute-all",
+                    "active": false
                 }
             ]
         },
@@ -868,6 +872,32 @@
                 "file": "assets\\models\\flatSphere.glb"
             },
             "deleted": true
+        },
+        "104": {
+            "name": "Head",
+            "parent": "84",
+            "components": [
+                {
+                    "type": "set-head-transform",
+                    "set-head-transform": {
+                        "_myLeftEye": "18",
+                        "_myRightEye": "19"
+                    }
+                },
+                {
+                    "type": "howler-audio-listener"
+                },
+                {
+                    "type": "custom-howler-audio-source",
+                    "custom-howler-audio-source": {
+                        "src": "assets/audio/ambient.mp3",
+                        "spatial": false,
+                        "loop": true,
+                        "autoplay": true,
+                        "volume": 0.5
+                    }
+                }
+            ]
         }
     },
     "meshes": {

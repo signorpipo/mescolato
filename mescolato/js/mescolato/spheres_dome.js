@@ -12,13 +12,20 @@ class SpheresDome {
         this._myPhase = null;
 
         this._myCurrentTimer = 0;
-
         this._myCurrentTimeBetweenSphere = 0;
         this._mySpawnCounter = 0;
+
+        this._myUseAudioTimer = 0;
+
+        //Setup
+
+        this._myUseAudioDelay = 0.2;
     }
 
     start() {
         this._prepareSpheres();
+
+        this._myUseAudioTimer = this._myUseAudioDelay;
 
         this._myPhase = SpheresDomePhase.SPAWN;
     }
@@ -35,11 +42,18 @@ class SpheresDome {
     }
 
     _spawn(dt) {
-        let spheresToSpawnAtTimeout = 6;
+        let spheresToSpawnAtTimeout = 5;
 
         this._myCurrentTimer += dt;
+        this._myUseAudioTimer += dt;
         if (this._myCurrentTimer > this._myCurrentTimeBetweenSphere) {
             this._myCurrentTimer = 0;
+
+            let useAudio = false;
+            if (this._myUseAudioTimer > this._myUseAudioDelay) {
+                this._myUseAudioTimer = 0;
+                useAudio = true;
+            }
 
             for (let i = 0; i < spheresToSpawnAtTimeout && this._mySpheresToSpawn.length > 0; i++) {
                 let randomIndex = Math.floor(Math.random() * this._mySpheresToSpawn.length);
@@ -47,7 +61,7 @@ class SpheresDome {
                 this._mySpheresToSpawn.splice(randomIndex, 1);
 
                 this._mySpheres.push(sphereToSpawn);
-                sphereToSpawn.start();
+                sphereToSpawn.start(useAudio && i == 0);
             }
 
             if (this._mySpheresToSpawn.length == 0) {
@@ -66,7 +80,7 @@ class SpheresDome {
             this._myCurrentTimeBetweenSphere = PP.MathUtils.mapToInterval(this._myCurrentTimeBetweenSphere, 1, Math.cos(Math.PI / 6), 1, 0);
             this._myCurrentTimeBetweenSphere = (this._myCurrentTimeBetweenSphere * (maxTimeBetweenSphere - minTimeBetweenSphere)) + minTimeBetweenSphere;
 
-            console.log(this._myCurrentTimeBetweenSphere);
+            //console.log(this._myCurrentTimeBetweenSphere);
         }
 
         for (let sphere of this._mySpheres) {
@@ -88,7 +102,7 @@ class SpheresDome {
         this._mySpheres = [];
         this._mySpheresToSpawn = [];
 
-        let cloves = 64;
+        let cloves = 48;
         let angleForClove = Math.PI * 2 / cloves;
 
         let minDistance = 30;

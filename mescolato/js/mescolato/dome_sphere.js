@@ -10,7 +10,7 @@ class DomeSphere {
         this._myTimer = 0;
     }
 
-    start() {
+    start(useAudio) {
         this._mySphereObject = WL.scene.addObject(GlobalData.RootObject);
 
         this._myMesh = this._mySphereObject.addComponent('mesh');
@@ -21,6 +21,13 @@ class DomeSphere {
         let ambientColor = this._myColor.slice(0);
         glMatrix.vec3.scale(ambientColor, ambientColor, 0.5);
         this._myMesh.material.ambientColor = ambientColor;
+
+        if (useAudio) {
+            this._myAudio = this._mySphereObject.addComponent("custom-howler-audio-source", { "src": "assets/audio/sphere.mp3" });
+            let pitch = Math.random() * (1.5 - 0.75) + 0.75;
+            this._myAudio.pitch(pitch);
+            this._myAudio.play();
+        }
 
         this._mySphereObject.resetScaling();
         this._mySphereObject.scale([0, 0, 0]);
