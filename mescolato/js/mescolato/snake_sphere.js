@@ -29,7 +29,7 @@ class SnakeSphere {
         this._mySphereObject = WL.scene.addObject(GlobalData.RootObject);
 
         this._myMesh = this._mySphereObject.addComponent('mesh');
-        this._myMesh.mesh = GlobalData.mySphereMesh;
+        this._myMesh.mesh = GlobalData.mySnakeSphereMesh;
         this._myMesh.material = this._myMaterial.clone();
 
         this._myAudio = this._mySphereObject.addComponent("custom-howler-audio-source", { "src": "assets/audio/snake_sphere.mp3" });
@@ -72,7 +72,7 @@ class SnakeSphere {
             this._mySphereObject.scale(this._myScale);
             this._myPhase = SnakeSpherePhase.FOLLOW;
         } else {
-            let percentage = this._myTimer / this._mySpawnTime;
+            let percentage = (Math.sin(this._myTimer / this._mySpawnTime * Math.PI / 6 + Math.PI / 3) - Math.sin(Math.PI / 3)) / (1 - Math.sin(Math.PI / 3));
             let currentScale = this._myScale.slice(0);
             glMatrix.vec3.scale(currentScale, currentScale, percentage);
             //console.log(currentScale);

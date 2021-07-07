@@ -332,7 +332,9 @@
                         "_mySnakeSphereMaterial_1": "103",
                         "_mySnakeSphereMaterial_2": "93",
                         "_mySnakeSphereMaterial_3": "92",
-                        "_mySnakeSphereMaterial_4": "91"
+                        "_mySnakeSphereMaterial_4": "91",
+                        "_myDomeSphereMesh": "90",
+                        "_mySnakeSphereMesh": "9"
                     }
                 },
                 {

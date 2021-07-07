@@ -61,7 +61,7 @@ class SpheresDome {
                 this._mySpheresToSpawn.splice(randomIndex, 1);
 
                 this._mySpheres.push(sphereToSpawn);
-                sphereToSpawn.start(useAudio && i == 0);
+                sphereToSpawn.spawn(useAudio && i == 0);
             }
 
             if (this._mySpheresToSpawn.length == 0) {
@@ -102,7 +102,7 @@ class SpheresDome {
         this._mySpheres = [];
         this._mySpheresToSpawn = [];
 
-        let cloves = 50;
+        let cloves = 10;
         let angleForClove = Math.PI * 2 / cloves;
 
         let minDistance = 30;
@@ -146,6 +146,7 @@ class SpheresDome {
                     let timeToComplete = Math.random() * (maxTimeToComplete - minTimeToComplete) + minTimeToComplete;
 
                     let sphere = new DomeSphere(sphereDirection, [sphereScale, sphereScale, sphereScale], this._myColors[sphereColorIndex], timeToComplete);
+                    sphere.start();
                     this._mySpheresToSpawn.push(sphere);
                 }
 

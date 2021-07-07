@@ -10,11 +10,11 @@ class DomeSphere {
         this._myTimer = 0;
     }
 
-    start(useAudio) {
+    start() {
         this._mySphereObject = WL.scene.addObject(GlobalData.RootObject);
 
         this._myMesh = this._mySphereObject.addComponent('mesh');
-        this._myMesh.mesh = GlobalData.mySphereMesh;
+        this._myMesh.mesh = GlobalData.myDomeSphereMesh;
         this._myMesh.material = GlobalData.myDomeSphereMaterial.clone();
 
         this._myMesh.material.diffuseColor = this._myColor;
@@ -22,20 +22,26 @@ class DomeSphere {
         glMatrix.vec3.scale(ambientColor, ambientColor, 0.5);
         this._myMesh.material.ambientColor = ambientColor;
 
+        this._mySphereObject.resetScaling();
+        this._mySphereObject.scale([0, 0, 0]);
+        this._mySphereObject.setTranslationWorld([0, 0, 0]);
+
+        this._mySphereObject.active = false;
+
+        this._myTimer = 0;
+
+        this._myPhase = DomeSpherePhase.MOVING;
+    }
+
+    spawn(useAudio) {
+        this._mySphereObject.active = true;
+
         if (useAudio) {
             this._myAudio = this._mySphereObject.addComponent("custom-howler-audio-source", { "src": "assets/audio/sphere.mp3" });
             let pitch = Math.random() * (1.5 - 0.75) + 0.75;
             this._myAudio.pitch(pitch);
             this._myAudio.play();
         }
-
-        this._mySphereObject.resetScaling();
-        this._mySphereObject.scale([0, 0, 0]);
-        this._mySphereObject.setTranslationWorld([0, 0, 0]);
-
-        this._myTimer = 0;
-
-        this._myPhase = DomeSpherePhase.MOVING;
     }
 
     update(dt) {

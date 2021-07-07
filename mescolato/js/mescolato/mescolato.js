@@ -1,5 +1,6 @@
 WL.registerComponent('mescolato', {
-    _mySphereMesh: { type: WL.Type.Mesh },
+    _myDomeSphereMesh: { type: WL.Type.Mesh },
+    _mySnakeSphereMesh: { type: WL.Type.Mesh },
     _myDomeSphereMaterial: { type: WL.Type.Material },
     _mySnakeSphereMaterial_1: { type: WL.Type.Material },
     _mySnakeSphereMaterial_2: { type: WL.Type.Material },
@@ -8,7 +9,8 @@ WL.registerComponent('mescolato', {
 }, {
     init: function () {
         GlobalData.myRootObject = WL.scene.addObject(this.object);
-        GlobalData.mySphereMesh = this._mySphereMesh;
+        GlobalData.myDomeSphereMesh = this._myDomeSphereMesh;
+        GlobalData.mySnakeSphereMesh = this._mySnakeSphereMesh;
         GlobalData.myDomeSphereMaterial = this._myDomeSphereMaterial;
         GlobalData.mySnakeSphereMaterialList = [];
         GlobalData.mySnakeSphereMaterialList.push(this._mySnakeSphereMaterial_1);
