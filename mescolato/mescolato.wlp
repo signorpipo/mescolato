@@ -371,7 +371,7 @@
                         "_myTextMaterial": "DefaultFontMaterial",
                         "_myHandedness": "left"
                     },
-                    "active": true
+                    "active": false
                 },
                 {
                     "type": "easy-tune",
@@ -380,7 +380,8 @@
                         "_myHandedness": "left",
                         "_myPlaneMaterial": "66",
                         "_myTextMaterial": "DefaultFontMaterial"
-                    }
+                    },
+                    "active": false
                 }
             ],
             "name": "Hand Left",

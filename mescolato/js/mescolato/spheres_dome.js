@@ -102,7 +102,7 @@ class SpheresDome {
         this._mySpheres = [];
         this._mySpheresToSpawn = [];
 
-        let cloves = 64;
+        let cloves = 50;
         let angleForClove = Math.PI * 2 / cloves;
 
         let minDistance = 30;

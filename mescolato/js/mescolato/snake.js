@@ -6,9 +6,13 @@ class Snake {
 
         this._myPhase = null;
 
+        this._myDT = 0;
+
         //Setup
         this._myWaitBeforeSpawnDelay = 5;
         this._mySpawnDelayList = [0, 10, 8, 7];
+
+        this._myFixedDT = 1 / 72;
     }
 
     start() {
@@ -44,19 +48,23 @@ class Snake {
     }
 
     update(dt) {
-        switch (this._myPhase) {
-            case SnakePhase.ECHO:
-                this._echo(dt);
-                break;
-            case SnakePhase.WAIT_BEFORE_SPAWN:
-                this._waitBeforeSpawn(dt);
-                break;
-            case SnakePhase.SPAWN:
-                this._spawn(dt);
-                break;
-            case SnakePhase.DONE:
-                this._done(dt);
-                break;
+        this._myDT += dt;
+        while (this._myDT >= this._myFixedDT) {
+            this._myDT -= this._myFixedDT;
+            switch (this._myPhase) {
+                case SnakePhase.ECHO:
+                    this._echo(this._myFixedDT);
+                    break;
+                case SnakePhase.WAIT_BEFORE_SPAWN:
+                    this._waitBeforeSpawn(this._myFixedDT);
+                    break;
+                case SnakePhase.SPAWN:
+                    this._spawn(this._myFixedDT);
+                    break;
+                case SnakePhase.DONE:
+                    this._done(this._myFixedDT);
+                    break;
+            }
         }
     }
 
