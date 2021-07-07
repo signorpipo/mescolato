@@ -5,9 +5,9 @@ class SnakeSphere {
         this._myObjectToFollow = objectToFollow;
         this._myDistanceFrames = distanceFrames;
 
-        this._myFollowPositionList = [];
+        this._myFollowTransformList = [];
         for (let i = 0; i <= distanceFrames; i++) {
-            this._myFollowPositionList[i] = [0, 0, 0];
+            this._myFollowTransformList[i] = glMatrix.quat2.create();
         }
 
         this._myPhase = null;
@@ -75,7 +75,7 @@ class SnakeSphere {
             let percentage = this._myTimer / this._mySpawnTime;
             let currentScale = this._myScale.slice(0);
             glMatrix.vec3.scale(currentScale, currentScale, percentage);
-            console.log(currentScale);
+            //console.log(currentScale);
             this._mySphereObject.scale(currentScale);
         }
 
@@ -83,12 +83,10 @@ class SnakeSphere {
     }
 
     _follow(dt) {
-        let newPosition = [];
-        this._myObjectToFollow.getTranslationWorld(newPosition);
-        this._myFollowPositionList.unshift(newPosition);
-        this._myFollowPositionList.pop();
+        this._myFollowTransformList.unshift(this._myObjectToFollow.transformWorld.slice(0));
+        this._myFollowTransformList.pop();
 
-        this._mySphereObject.setTranslationWorld(this._myFollowPositionList[this._myFollowPositionList.length - 1]);
+        this._mySphereObject.transformWorld = this._myFollowTransformList[this._myFollowTransformList.length - 1];
     }
 
     isDone() {

@@ -70,7 +70,7 @@ class SpheresDome {
 
             this._mySpawnCounter++;
 
-            let minTimeBetweenSphere = 0.015;
+            let minTimeBetweenSphere = 0.03;
             let maxTimeBetweenSphere = 1;
             let spawnToReachMinTime = 15;
 
@@ -102,7 +102,7 @@ class SpheresDome {
         this._mySpheres = [];
         this._mySpheresToSpawn = [];
 
-        let cloves = 48;
+        let cloves = 64;
         let angleForClove = Math.PI * 2 / cloves;
 
         let minDistance = 30;

@@ -1,13 +1,14 @@
 class Snake {
     constructor() {
-
         this._myTimer = 0;
+
+        this._myCoolMovement = null;
 
         this._myPhase = null;
 
         //Setup
         this._myWaitBeforeSpawnDelay = 5;
-        this._mySpawnDelayList = [0, 5, 4, 3];
+        this._mySpawnDelayList = [0, 10, 8, 7];
     }
 
     start() {
@@ -22,7 +23,7 @@ class Snake {
         this._mySnakeSpheresToSpawn = [];
         this._mySnakeSpheres = [];
 
-        let distanceList = [0, 300, 200, 130];
+        let distanceList = [0, 400, 260, 160];
         let spawnTimeList = [4, 3, 2, 1];
         let scaleList = [1];
         for (let i = 1; i < 4; i++) {
@@ -57,10 +58,6 @@ class Snake {
                 this._done(dt);
                 break;
         }
-
-        if (this._myPhase >= SnakePhase.SPAWN) {
-            this._mySnakeObject.translate([0, 0.01, 0]);
-        }
     }
 
     _echo(dt) {
@@ -92,7 +89,8 @@ class Snake {
             this._myPhase = SnakePhase.SPAWN;
             this._myTimer = 0;
 
-            this._mySnakeObject.setTranslationWorld([0, 0, -7]);
+            this._myCoolMovement = new CoolMovement(this._mySnakeObject);
+            this._myCoolMovement.start();
         }
 
         for (let sphere of this._mySnakeSpheresToSpawn) {
@@ -119,12 +117,16 @@ class Snake {
         for (let sphere of this._mySnakeSpheres) {
             sphere.update(dt);
         }
+
+        this._myCoolMovement.update(dt);
     }
 
     _done(dt) {
         for (let sphere of this._mySnakeSpheres) {
             sphere.update(dt);
         }
+
+        this._myCoolMovement.update(dt);
     }
 
     isDone() {
