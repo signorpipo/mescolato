@@ -23,13 +23,13 @@ class CoolMovement {
         this._myMinDistance = 8;
         this._myMaxDistance = 16;
 
-        this._myMinDelayToRetarget = 180;
-        this._myMaxDelayToRetarget = 240;
+        this._myMinDelayToRetarget = 25;
+        this._myMaxDelayToRetarget = 50;
 
         this._myMinDistanceToRetarget = 1;
         this._myMaxDistanceToRetarget = 2;
 
-        this._myMinTargetPositionDistance = 12;
+        this._myMinTargetPositionDistance = 30;
 
         this._myTargetSpeed = 0.55;
 
@@ -56,8 +56,8 @@ class CoolMovement {
         this._myRetargetTimer = 0;
 
         let randomX = (Math.random() < 0.5 ? 1 : -1) * Math.random() * (this._myMaxDistance - this._myMinDistance) + this._myMinDistance;
-        let randomY = Math.random() * (this._myMaxDistance - this._myMinDistance) + this._myMinDistance;
-        let randomZ = - (Math.random() * (this._myMaxDistance - this._myMinDistance) + this._myMinDistance);
+        let randomY = (Math.random() < 0.5 ? 1 : -1) * Math.random() * (this._myMaxDistance - this._myMinDistance) + this._myMinDistance;
+        let randomZ = (Math.random() < 0.5 ? 1 : -1) * (Math.random() * (this._myMaxDistance - this._myMinDistance) + this._myMinDistance);
 
         this._myTargetPosition = [randomX, randomY, randomZ];
 
@@ -184,7 +184,7 @@ class CoolMovement {
             let distance = 0;
             let currentPosition = [];
             this._myObjectToMove.getTranslationWorld(currentPosition);
-
+            let count = 0;
             do {
                 let randomX = (Math.random() < 0.5 ? 1 : -1) * (Math.random() * (this._myMaxDistance - this._myMinDistance) + this._myMinDistance);
                 let randomY = (Math.random() < 0.5 ? 1 : -1) * (Math.random() * (this._myMaxDistance - this._myMinDistance) + this._myMinDistance);
@@ -194,7 +194,9 @@ class CoolMovement {
 
                 distance = glMatrix.vec3.dist(currentPosition, this._myTargetPosition);
 
-            } while (distance < this._myMinTargetPositionDistance);
+                count++;
+
+            } while (distance < this._myMinTargetPositionDistance && count < 10);
 
             this._myCurrentDelayToRetarget = Math.random() * (this._myMaxDelayToRetarget - this._myMinDelayToRetarget) + this._myMinDelayToRetarget;
             this._myCurrentDistanceToRetarget = Math.random() * (this._myMaxDistanceToRetarget - this._myMinDistanceToRetarget) + this._myMinDistanceToRetarget;
