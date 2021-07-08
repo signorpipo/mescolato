@@ -117,6 +117,9 @@ class Snake {
     _spawn(dt) {
         this._myTimer += dt;
         if (this._myTimer > this._mySpawnDelayList[this._mySnakeSpheres.length]) {
+            if (this._mySnakeSpheresToSpawn.length == 3) {
+                WatermelonActive = true;
+            }
             this._myTimer = 0;
             let sphere = this._mySnakeSpheresToSpawn.shift();
             sphere.spawn();

@@ -344,6 +344,13 @@
                 {
                     "type": "fixed-foveation",
                     "active": true
+                },
+                {
+                    "type": "watermelon-show",
+                    "watermelon-show": {
+                        "watermelon": "113",
+                        "_myWatermelon": "113"
+                    }
                 }
             ]
         },
@@ -922,6 +929,43 @@
                     }
                 }
             ]
+        },
+        "113": {
+            "link": {
+                "name": "Circle",
+                "file": "assets\\models\\watermelon.glb"
+            },
+            "parent": "32",
+            "name": "Watermelon",
+            "transformation": [
+                0.8676134943962097,
+                -0.8661215901374817,
+                -0.24409067630767823,
+                0.0,
+                0.3168562650680542,
+                -0.023304522037506105,
+                1.2089495658874512,
+                0.0,
+                -0.8422285318374634,
+                -0.900994062423706,
+                0.20337337255477906,
+                0.0,
+                5.000036716461182,
+                23.000259399414064,
+                35.00035095214844,
+                1.0
+            ],
+            "components": [
+                null,
+                null,
+                null,
+                null
+            ]
+        },
+        "114": {
+            "name": "Empty.000",
+            "parent": "32",
+            "deleted": true
         }
     },
     "meshes": {
@@ -1049,6 +1093,30 @@
             "link": {
                 "name": "Icosphere",
                 "file": "assets\\models\\flatSphere.glb"
+            }
+        },
+        "109": {
+            "link": {
+                "name": "Circle",
+                "file": "assets\\models\\watermelon.glb"
+            }
+        },
+        "110": {
+            "link": {
+                "name": "Circle.0",
+                "file": "assets\\models\\watermelon.glb"
+            }
+        },
+        "111": {
+            "link": {
+                "name": "Circle.1",
+                "file": "assets\\models\\watermelon.glb"
+            }
+        },
+        "112": {
+            "link": {
+                "name": "Circle.2",
+                "file": "assets\\models\\watermelon.glb"
             }
         }
     },
@@ -1234,8 +1302,8 @@
             "pipeline": "87",
             "Phong": {
                 "ambientColor": [
-                    0.9999973177909851,
-                    0.9999899864196777,
+                    0.9999973177909852,
+                    0.9999899864196776,
                     1.0,
                     1.0
                 ],
@@ -1400,6 +1468,34 @@
                     1.0
                 ]
             }
+        },
+        "105": {
+            "link": {
+                "name": "Melon_Red",
+                "file": "assets\\models\\watermelon.glb"
+            },
+            "pipeline": "72"
+        },
+        "106": {
+            "link": {
+                "name": "Melon_White",
+                "file": "assets\\models\\watermelon.glb"
+            },
+            "pipeline": "72"
+        },
+        "107": {
+            "link": {
+                "name": "Melon_Green",
+                "file": "assets\\models\\watermelon.glb"
+            },
+            "pipeline": "72"
+        },
+        "108": {
+            "link": {
+                "name": "Melon_Black",
+                "file": "assets\\models\\watermelon.glb"
+            },
+            "pipeline": "72"
         }
     },
     "shaders": {
@@ -1493,14 +1589,15 @@
             ]
         },
         "runtime": {
-            "xrButtonColor": "RebeccaPurple"
+            "xrButtonColor": "#634185"
         }
     },
     "animations": {},
     "skins": {},
     "files": [
         "assets/models/quest_controllers_credits_Jezza3D.glb",
-        "assets/models/flatSphere.glb"
+        "assets/models/flatSphere.glb",
+        "assets/models/watermelon.glb"
     ],
     "pipelines": {
         "69": {

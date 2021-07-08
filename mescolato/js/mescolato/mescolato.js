@@ -20,7 +20,7 @@ WL.registerComponent('mescolato', {
     },
     start: function () {
         this._myWait1Timer = 5;
-        this._myWait2Timer = 8;
+        this._myWait2Timer = 6.5;
 
         this._mySphereDome = new SpheresDome();
         this._mySnake = new Snake();
