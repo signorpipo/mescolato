@@ -27,8 +27,6 @@ class Snake {
         this._mySnakeObject = WL.scene.addObject(GlobalData.RootObject);
 
         this._mySnakeObjectAudio = this._mySnakeObject.addComponent("custom-howler-audio-source", { "src": "assets/audio/snake_echo.mp3" });
-        let pitch = Math.random() * (1.1 - 0.9) + 0.9;
-        this._mySnakeObjectAudio.pitch(pitch);
 
         this._mySnakeSpheresToSpawn = [];
         this._mySnakeSpheres = [];
@@ -87,6 +85,10 @@ class Snake {
         z *= (Math.random() < 0.5) ? -1 : 1;
 
         this._mySnakeObject.setTranslationWorld([x, y, z]);
+        let pitch = Math.random() * (1.1 - 0.9) + 0.9;
+        this._mySnakeObjectAudio.audio._pannerAttr.refDistance = 3;
+        this._mySnakeObjectAudio.audio._pannerAttr.rolloffFactor = 0.5;
+        this._mySnakeObjectAudio.pitch(pitch);
         this._mySnakeObjectAudio.play();
 
         this._myPhase = SnakePhase.WAIT_BEFORE_SPAWN;
@@ -143,6 +145,10 @@ class Snake {
             this._myEchoTimer = 0;
             this._myCurrentEchoDelay = Math.random() * (this._myMaxEchoDelay - this._myMinEchoDelay) + this._myMinEchoDelay;
 
+            let pitch = Math.random() * (1.1 - 0.9) + 0.9;
+            this._mySnakeObjectAudio.audio._pannerAttr.refDistance = 3;
+            this._mySnakeObjectAudio.audio._pannerAttr.rolloffFactor = 0.5;
+            this._mySnakeObjectAudio.pitch(pitch);
             this._mySnakeObjectAudio.play();
         }
         for (let sphere of this._mySnakeSpheres) {
