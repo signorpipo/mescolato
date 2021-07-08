@@ -31,7 +31,7 @@ class Snake {
         this._mySnakeSpheresToSpawn = [];
         this._mySnakeSpheres = [];
 
-        let distanceList = [0, 300, 200, 140];
+        let distanceList = [0, 300, 200, 150];
         let spawnTimeList = [4, 3, 2.5, 2];
         let scaleList = [1];
         for (let i = 1; i < 4; i++) {

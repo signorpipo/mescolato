@@ -8,7 +8,8 @@ class CoolMovement {
         this._myCurrentDelayToRetarget = 0;
         this._myCurrentDistanceToRetarget = 0;
 
-        this._myCurrentMainRotationAxis = [];
+        this._myNewMainRotationAxis = [];
+        this._myCurrentMainRotationAxis = null;
         this._myCurrentMainRotationTargetSpeed = 0;
         this._myCurrentDelayToRecomputeRotation = 0;
         this._myCurrentMainRotationSpeed = 0;
@@ -38,10 +39,10 @@ class CoolMovement {
         this._myMinThresholdAngle = PP.MathUtils.toRadians(20);
         this._myMaxThresholdAngle = PP.MathUtils.toRadians(40);
 
-        this._myMinDelayToRecomputeRotation = 8;
-        this._myMaxDelayToRecomputeRotation = 16;
+        this._myMinDelayToRecomputeRotation = 6;
+        this._myMaxDelayToRecomputeRotation = 12;
 
-        this._myRotationLerpFactor = 0.1;
+        this._myRotationLerpFactor = 0.05;
         this._mySpeedLerpFactor = 0.2;
 
         PP.EasyTuneVariables.addVariable(new PP.EasyTuneNumber("Speed", 0.55, 0.01, 3));
@@ -73,8 +74,19 @@ class CoolMovement {
     update(dt) {
         this._myTargetSpeed = PP.EasyTuneVariables.get("Speed").myValue;
 
-        this._myCurrentMainRotationSpeed = this._myCurrentMainRotationSpeed + (this._myCurrentMainRotationTargetSpeed - this._myCurrentMainRotationSpeed) * this._myRotationLerpFactor;
         this._myCurrentSpeed = this._myCurrentSpeed + (this._myTargetSpeed - this._myCurrentSpeed) * this._mySpeedLerpFactor * dt;
+
+        if (this._myNewMainRotationAxis == null) {
+            this._myCurrentMainRotationSpeed = this._myCurrentMainRotationSpeed + (this._myCurrentMainRotationTargetSpeed - this._myCurrentMainRotationSpeed) * this._myRotationLerpFactor;
+        } else {
+            this._myCurrentMainRotationSpeed = this._myCurrentMainRotationSpeed + (0 - this._myCurrentMainRotationSpeed) * this._myRotationLerpFactor;
+            console.log(this._myCurrentMainRotationSpeed.toFixed(4));
+            if (this._myCurrentMainRotationSpeed < 0.01) {
+                this._myCurrentMainRotationAxis = this._myNewMainRotationAxis;
+                this._myNewMainRotationAxis = null;
+                this._myCurrentMainRotationSpeed = 0;
+            }
+        }
 
         let rotation = [];
         glMatrix.quat.setAxisAngle(rotation, this._myCurrentMainRotationAxis, this._myCurrentMainRotationSpeed * dt);
@@ -105,10 +117,17 @@ class CoolMovement {
         this._myObjectToMove.getForward(forward);
 
         if (glMatrix.vec3.angle(forward, targetDirection) > 0.001) {
-            glMatrix.vec3.cross(this._myCurrentMainRotationAxis, forward, targetDirection);
-            glMatrix.vec3.normalize(this._myCurrentMainRotationAxis, this._myCurrentMainRotationAxis);
+            this._myNewMainRotationAxis = [];
+            glMatrix.vec3.cross(this._myNewMainRotationAxis, forward, targetDirection);
+            glMatrix.vec3.normalize(this._myNewMainRotationAxis, this._myNewMainRotationAxis);
         } else {
-            this._myObjectToMove.getUp(this._myCurrentMainRotationAxis);
+            this._myNewMainRotationAxis = [];
+            this._myObjectToMove.getUp(this._myNewMainRotationAxis);
+        }
+
+        if (this._myCurrentMainRotationAxis == null) {
+            this._myCurrentMainRotationAxis = this._myNewMainRotationAxis;
+            this._myNewMainRotationAxis = null;
         }
 
         this._myCurrentDelayToRecomputeRotation = Math.random() * (this._myMaxDelayToRecomputeRotation - this._myMinDelayToRecomputeRotation) + this._myMinDelayToRecomputeRotation;
@@ -193,10 +212,10 @@ class CoolMovement {
 
         if (this._myRecomputeRotationTimer > this._myCurrentDelayToRecomputeRotation) {
             recompute = true;
-        } else {
+        } else if (false) {
             let forward = [];
             this._myObjectToMove.getForward(forward);
-            if (glMatrix.vec3.angle(forward, this._myOldForward) > 0.001 && this._myRecomputeRotationTimer > 5) {
+            if (glMatrix.vec3.angle(forward, this._myOldForward) > 0.001 && this._myRecomputeRotationTimer > 8) {
                 let flatForward = PP.MathUtils.removeComponentAlongAxis(forward, this._myCurrentMainRotationAxis);
                 let flatOldForward = PP.MathUtils.removeComponentAlongAxis(this._myOldForward, this._myCurrentMainRotationAxis);
 

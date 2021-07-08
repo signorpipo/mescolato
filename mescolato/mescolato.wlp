@@ -393,7 +393,8 @@
                     "type": "set-hierarchy-active",
                     "set-hierarchy-active": {
                         "_myHierarchyActive": false
-                    }
+                    },
+                    "active": false
                 }
             ],
             "name": "Hand Left",
@@ -520,7 +521,8 @@
                     "type": "set-hierarchy-active",
                     "set-hierarchy-active": {
                         "_myHierarchyActive": false
-                    }
+                    },
+                    "active": false
                 }
             ],
             "name": "Hand Right",
