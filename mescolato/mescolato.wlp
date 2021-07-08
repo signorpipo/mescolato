@@ -377,7 +377,7 @@
                         "_myTextMaterial": "DefaultFontMaterial",
                         "_myHandedness": "left"
                     },
-                    "active": true
+                    "active": false
                 },
                 {
                     "type": "easy-tune",
@@ -387,14 +387,14 @@
                         "_myPlaneMaterial": "66",
                         "_myTextMaterial": "DefaultFontMaterial"
                     },
-                    "active": true
+                    "active": false
                 },
                 {
                     "type": "set-hierarchy-active",
                     "set-hierarchy-active": {
                         "_myHierarchyActive": false
                     },
-                    "active": false
+                    "active": true
                 }
             ],
             "name": "Hand Left",
@@ -522,7 +522,7 @@
                     "set-hierarchy-active": {
                         "_myHierarchyActive": false
                     },
-                    "active": false
+                    "active": true
                 }
             ],
             "name": "Hand Right",

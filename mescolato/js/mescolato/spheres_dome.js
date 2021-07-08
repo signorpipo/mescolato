@@ -102,7 +102,7 @@ class SpheresDome {
         this._mySpheres = [];
         this._mySpheresToSpawn = [];
 
-        let cloves = 58;
+        let cloves = 48;
         let angleForClove = Math.PI * 2 / cloves;
 
         let minDistance = 25;
@@ -112,7 +112,7 @@ class SpheresDome {
         let maxExtraRotation = PP.MathUtils.toRadians(10);
 
         let minScale = 0.5;
-        let maxScale = 2.5;
+        let maxScale = 2;
 
         let minTimeToComplete = 0.5;
         let maxTimeToComplete = 1;
@@ -127,30 +127,65 @@ class SpheresDome {
             glMatrix.vec3.normalize(rotationAxis, rotationAxis);
 
             for (let j = 0; j <= cloves - 1; j++) {
-                let skipThreshold = 4;
+                let skipThreshold = 2;
                 let skip = (j <= skipThreshold || (j >= cloves / 2 - skipThreshold && j <= cloves / 2 + skipThreshold) || j >= cloves - skipThreshold) && i % 5 != 0;
                 if (!skip && ((j != 0 && j != cloves / 2) || i == 0)) {
-                    let distance = Math.random() * (maxDistance - minDistance) + minDistance;
-                    let extraAxisRotation = (Math.random() * 2 - 1) * (maxExtraRotation - minExtraRotation) + minExtraRotation;
-                    let extraUpRotation = (Math.random() * 2 - 1) * (maxExtraRotation - minExtraRotation) + minExtraRotation;
-                    let sphereDirection = verticalDirection.slice(0);
+                    {
+                        let distance = Math.random() * (maxDistance - minDistance) + minDistance;
+                        let extraAxisRotation = (Math.random() * 2 - 1) * (maxExtraRotation - minExtraRotation) + minExtraRotation;
+                        let extraUpRotation = (Math.random() * 2 - 1) * (maxExtraRotation - minExtraRotation) + minExtraRotation;
+                        let sphereDirection = verticalDirection.slice(0);
 
-                    sphereDirection = PP.MathUtils.rotateVectorAroundAxis(sphereDirection, rotationAxis, extraAxisRotation);
-                    sphereDirection = PP.MathUtils.rotateVectorAroundAxis(sphereDirection, upDirection, extraUpRotation);
+                        sphereDirection = PP.MathUtils.rotateVectorAroundAxis(sphereDirection, rotationAxis, extraAxisRotation);
+                        sphereDirection = PP.MathUtils.rotateVectorAroundAxis(sphereDirection, upDirection, extraUpRotation);
 
-                    glMatrix.vec3.scale(sphereDirection, sphereDirection, distance);
+                        glMatrix.vec3.scale(sphereDirection, sphereDirection, distance);
 
-                    let sphereScale = Math.random() * (maxScale - minScale) + minScale;
-                    let sphereColorIndex = Math.floor(Math.random() * this._myColors.length);
+                        let sphereScale = Math.random() * (maxScale - minScale) + minScale;
+                        let sphereColorIndex = Math.floor(Math.random() * this._myColors.length);
 
-                    let timeToComplete = Math.random() * (maxTimeToComplete - minTimeToComplete) + minTimeToComplete;
+                        let timeToComplete = Math.random() * (maxTimeToComplete - minTimeToComplete) + minTimeToComplete;
 
-                    let sphere = new DomeSphere(sphereDirection, [sphereScale, sphereScale, sphereScale], this._myColors[sphereColorIndex], timeToComplete);
-                    sphere.start();
-                    this._mySpheresToSpawn.push(sphere);
+                        let sphere = new DomeSphere(sphereDirection, [sphereScale, sphereScale, sphereScale], this._myColors[sphereColorIndex], timeToComplete);
+                        sphere.start();
+                        this._mySpheresToSpawn.push(sphere);
+                    }
+
+                    let doubleThresholdDelta = 6;
+                    let doubleThreshold_1 = cloves / 4;
+                    let doubleThreshold_2 = cloves * 3 / 4;
+                    let double = (j > doubleThreshold_1 - doubleThresholdDelta && j < doubleThreshold_1 + doubleThresholdDelta) ||
+                        (j > doubleThreshold_2 - doubleThresholdDelta && j < doubleThreshold_2 + doubleThresholdDelta);
+
+                    if (double) {
+                        verticalDirection = PP.MathUtils.rotateVectorAroundAxis(verticalDirection, rotationAxis, angleForClove / 2);
+
+                        let distance = Math.random() * (maxDistance - minDistance) + minDistance;
+                        let extraAxisRotation = (Math.random() * 2 - 1) * (maxExtraRotation - minExtraRotation) + minExtraRotation;
+                        let extraUpRotation = (Math.random() * 2 - 1) * (maxExtraRotation - minExtraRotation) + minExtraRotation;
+                        let sphereDirection = verticalDirection.slice(0);
+
+                        sphereDirection = PP.MathUtils.rotateVectorAroundAxis(sphereDirection, rotationAxis, extraAxisRotation);
+                        sphereDirection = PP.MathUtils.rotateVectorAroundAxis(sphereDirection, upDirection, extraUpRotation);
+
+                        glMatrix.vec3.scale(sphereDirection, sphereDirection, distance);
+
+                        let sphereScale = Math.random() * (maxScale - minScale) + minScale;
+                        let sphereColorIndex = Math.floor(Math.random() * this._myColors.length);
+
+                        let timeToComplete = Math.random() * (maxTimeToComplete - minTimeToComplete) + minTimeToComplete;
+
+                        let sphere = new DomeSphere(sphereDirection, [sphereScale, sphereScale, sphereScale], this._myColors[sphereColorIndex], timeToComplete);
+                        sphere.start();
+                        this._mySpheresToSpawn.push(sphere);
+
+                        verticalDirection = PP.MathUtils.rotateVectorAroundAxis(verticalDirection, rotationAxis, angleForClove / 2);
+                    } else {
+                        verticalDirection = PP.MathUtils.rotateVectorAroundAxis(verticalDirection, rotationAxis, angleForClove);
+                    }
+                } else {
+                    verticalDirection = PP.MathUtils.rotateVectorAroundAxis(verticalDirection, rotationAxis, angleForClove);
                 }
-
-                verticalDirection = PP.MathUtils.rotateVectorAroundAxis(verticalDirection, rotationAxis, angleForClove);
 
             }
 

@@ -80,7 +80,7 @@ class CoolMovement {
             this._myCurrentMainRotationSpeed = this._myCurrentMainRotationSpeed + (this._myCurrentMainRotationTargetSpeed - this._myCurrentMainRotationSpeed) * this._myRotationLerpFactor;
         } else {
             this._myCurrentMainRotationSpeed = this._myCurrentMainRotationSpeed + (0 - this._myCurrentMainRotationSpeed) * this._myRotationLerpFactor;
-            console.log(this._myCurrentMainRotationSpeed.toFixed(4));
+            //console.log(this._myCurrentMainRotationSpeed.toFixed(4));
             if (this._myCurrentMainRotationSpeed < 0.01) {
                 this._myCurrentMainRotationAxis = this._myNewMainRotationAxis;
                 this._myNewMainRotationAxis = null;
