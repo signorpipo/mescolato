@@ -19,7 +19,7 @@ class SpheresDome {
 
         //Setup
 
-        this._myUseAudioDelay = 0.11;
+        this._myUseAudioDelay = 0.12;
     }
 
     start() {
@@ -102,17 +102,17 @@ class SpheresDome {
         this._mySpheres = [];
         this._mySpheresToSpawn = [];
 
-        let cloves = 10;
+        let cloves = 58;
         let angleForClove = Math.PI * 2 / cloves;
 
-        let minDistance = 30;
-        let maxDistance = 60;
+        let minDistance = 25;
+        let maxDistance = 55;
 
         let minExtraRotation = 0;
         let maxExtraRotation = PP.MathUtils.toRadians(10);
 
         let minScale = 0.5;
-        let maxScale = 1.5;
+        let maxScale = 2.5;
 
         let minTimeToComplete = 0.5;
         let maxTimeToComplete = 1;
@@ -127,8 +127,8 @@ class SpheresDome {
             glMatrix.vec3.normalize(rotationAxis, rotationAxis);
 
             for (let j = 0; j <= cloves - 1; j++) {
-                let skipThreshold = 2;
-                let skip = (j <= skipThreshold || (j >= cloves / 2 - skipThreshold && j <= cloves / 2 + skipThreshold) || j >= cloves - skipThreshold) && i % 4 != 0;
+                let skipThreshold = 4;
+                let skip = (j <= skipThreshold || (j >= cloves / 2 - skipThreshold && j <= cloves / 2 + skipThreshold) || j >= cloves - skipThreshold) && i % 5 != 0;
                 if (!skip && ((j != 0 && j != cloves / 2) || i == 0)) {
                     let distance = Math.random() * (maxDistance - minDistance) + minDistance;
                     let extraAxisRotation = (Math.random() * 2 - 1) * (maxExtraRotation - minExtraRotation) + minExtraRotation;

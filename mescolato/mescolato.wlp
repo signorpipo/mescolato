@@ -329,10 +329,10 @@
                     "mescolato": {
                         "_mySphereMesh": "90",
                         "_myDomeSphereMaterial": "102",
-                        "_mySnakeSphereMaterial_1": "103",
-                        "_mySnakeSphereMaterial_2": "93",
+                        "_mySnakeSphereMaterial_1": "92",
+                        "_mySnakeSphereMaterial_2": "92",
                         "_mySnakeSphereMaterial_3": "92",
-                        "_mySnakeSphereMaterial_4": "91",
+                        "_mySnakeSphereMaterial_4": "92",
                         "_myDomeSphereMesh": "90",
                         "_mySnakeSphereMesh": "9"
                     }
@@ -340,6 +340,10 @@
                 {
                     "type": "mute-all",
                     "active": false
+                },
+                {
+                    "type": "fixed-foveation",
+                    "active": true
                 }
             ]
         },
@@ -373,7 +377,7 @@
                         "_myTextMaterial": "DefaultFontMaterial",
                         "_myHandedness": "left"
                     },
-                    "active": false
+                    "active": true
                 },
                 {
                     "type": "easy-tune",
@@ -383,7 +387,13 @@
                         "_myPlaneMaterial": "66",
                         "_myTextMaterial": "DefaultFontMaterial"
                     },
-                    "active": false
+                    "active": true
+                },
+                {
+                    "type": "set-hierarchy-active",
+                    "set-hierarchy-active": {
+                        "_myHierarchyActive": false
+                    }
                 }
             ],
             "name": "Hand Left",
@@ -504,6 +514,12 @@
                         "_myCursorMesh": "9",
                         "_myCursorMaterial": "66",
                         "_myShowFingerCursor": false
+                    }
+                },
+                {
+                    "type": "set-hierarchy-active",
+                    "set-hierarchy-active": {
+                        "_myHierarchyActive": false
                     }
                 }
             ],
@@ -1216,9 +1232,9 @@
             "pipeline": "87",
             "Phong": {
                 "ambientColor": [
-                    0.6823510527610779,
-                    0.6823460459709168,
-                    0.6823529005050659,
+                    0.9999973177909851,
+                    0.9999899864196777,
+                    1.0,
                     1.0
                 ],
                 "diffuseColor": [

@@ -19,11 +19,8 @@ WL.registerComponent('mescolato', {
         GlobalData.mySnakeSphereMaterialList.push(this._mySnakeSphereMaterial_4);
     },
     start: function () {
-        //this._myWait1Timer = 5;
-        //this._myWait2Timer = 8;
-
-        this._myWait1Timer = 1;
-        this._myWait2Timer = 3;
+        this._myWait1Timer = 5;
+        this._myWait2Timer = 8;
 
         this._mySphereDome = new SpheresDome();
         this._mySnake = new Snake();

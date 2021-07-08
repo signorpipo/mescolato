@@ -2,25 +2,49 @@ class CoolMovement {
     constructor(objectToMove) {
         this._myObjectToMove = objectToMove;
 
-        this._myTimer = 0;
+        this._myRetargetTimer = 0;
         this._myTargetPosition = [];
 
         this._myCurrentDelayToRetarget = 0;
         this._myCurrentDistanceToRetarget = 0;
 
+        this._myCurrentMainRotationAxis = [];
+        this._myCurrentMainRotationTargetSpeed = 0;
+        this._myCurrentDelayToRecomputeRotation = 0;
+        this._myCurrentMainRotationSpeed = 0;
+        this._myRecomputeRotationTimer = 0;
+
+        this._myOldForward = [];
+
+        this._myCurrentSpeed = 0;
+
         //Setup
         this._myMinDistance = 8;
         this._myMaxDistance = 16;
 
-        this._myMinDelayToRetarget = 20;
-        this._myMaxDelayToRetarget = 30;
+        this._myMinDelayToRetarget = 180;
+        this._myMaxDelayToRetarget = 240;
 
         this._myMinDistanceToRetarget = 1;
         this._myMaxDistanceToRetarget = 2;
 
         this._myMinTargetPositionDistance = 12;
 
-        this._mySpeed = 0.2;
+        this._myTargetSpeed = 0.55;
+
+        this._myMinRotationSpeed = PP.MathUtils.toRadians(5);
+        this._myMaxRotationSpeed = PP.MathUtils.toRadians(25);
+
+        this._myMinThresholdAngle = PP.MathUtils.toRadians(20);
+        this._myMaxThresholdAngle = PP.MathUtils.toRadians(40);
+
+        this._myMinDelayToRecomputeRotation = 8;
+        this._myMaxDelayToRecomputeRotation = 16;
+
+        this._myRotationLerpFactor = 0.1;
+        this._mySpeedLerpFactor = 0.2;
+
+        PP.EasyTuneVariables.addVariable(new PP.EasyTuneNumber("Speed", 0.55, 0.01, 3));
     }
 
     start() {
@@ -28,7 +52,7 @@ class CoolMovement {
 
         this._lookAt([0, 1, 0]);
 
-        this._myTimer = 0;
+        this._myRetargetTimer = 0;
 
         let randomX = (Math.random() < 0.5 ? 1 : -1) * Math.random() * (this._myMaxDistance - this._myMinDistance) + this._myMinDistance;
         let randomY = Math.random() * (this._myMaxDistance - this._myMinDistance) + this._myMinDistance;
@@ -36,34 +60,62 @@ class CoolMovement {
 
         this._myTargetPosition = [randomX, randomY, randomZ];
 
-        console.log(this._myTargetPosition);
+        //console.log(this._myTargetPosition);
 
         this._myCurrentDelayToRetarget = Math.random() * (this._myMaxDelayToRetarget - this._myMinDelayToRetarget) + this._myMinDelayToRetarget;
         this._myCurrentDistanceToRetarget = Math.random() * (this._myMaxDistanceToRetarget - this._myMinDistanceToRetarget) + this._myMinDistanceToRetarget;
+
+        this._computeRotationAxesData(true);
+
+        this._myObjectToMove.getForward(this._myOldForward);
     }
 
     update(dt) {
-        this._myTimer += dt;
+        this._myTargetSpeed = PP.EasyTuneVariables.get("Speed").myValue;
 
-        let currentPosition = [];
-        this._myObjectToMove.getTranslationWorld(currentPosition);
-        let direction = [];
-        glMatrix.vec3.sub(direction, this._myTargetPosition, currentPosition);
-        this._lookAt(direction);
+        this._myCurrentMainRotationSpeed = this._myCurrentMainRotationSpeed + (this._myCurrentMainRotationTargetSpeed - this._myCurrentMainRotationSpeed) * this._myRotationLerpFactor;
+        this._myCurrentSpeed = this._myCurrentSpeed + (this._myTargetSpeed - this._myCurrentSpeed) * this._mySpeedLerpFactor * dt;
+
+        let rotation = [];
+        glMatrix.quat.setAxisAngle(rotation, this._myCurrentMainRotationAxis, this._myCurrentMainRotationSpeed * dt);
+        //console.log(this._myCurrentMainRotationAxis, " ", this._myCurrentMainRotationSpeed * dt);
+        glMatrix.quat.mul(rotation, rotation, this._myObjectToMove.transformWorld);
+        glMatrix.quat.normalize(rotation, rotation);
+        this._myObjectToMove.resetRotation();
+        this._myObjectToMove.rotateObject(rotation);
 
         let forward = [];
         this._myObjectToMove.getForward(forward);
-        glMatrix.vec3.scale(forward, forward, this._mySpeed * dt);
+        glMatrix.vec3.scale(forward, forward, this._myCurrentSpeed * dt);
         this._myObjectToMove.translate(forward);
 
-        this._checkRetarget();
+        if (!this._checkRetarget(dt)) {
+            this._checkRecomputeRotation(dt);
+        }
 
-        let newPosition = [];
-        this._myObjectToMove.getTranslationWorld(newPosition);
+        this._myObjectToMove.getForward(this._myOldForward);
+    }
 
-        glMatrix.vec3.sub(newPosition, newPosition, currentPosition);
-        //console.log(newPosition);
-        console.log(" ");
+    _computeRotationAxesData(hardRecompute) {
+        let currentPosition = [];
+        this._myObjectToMove.getTranslationWorld(currentPosition);
+        let targetDirection = [];
+        glMatrix.vec3.sub(targetDirection, this._myTargetPosition, currentPosition);
+        let forward = [];
+        this._myObjectToMove.getForward(forward);
+
+        if (glMatrix.vec3.angle(forward, targetDirection) > 0.001) {
+            glMatrix.vec3.cross(this._myCurrentMainRotationAxis, forward, targetDirection);
+            glMatrix.vec3.normalize(this._myCurrentMainRotationAxis, this._myCurrentMainRotationAxis);
+        } else {
+            this._myObjectToMove.getUp(this._myCurrentMainRotationAxis);
+        }
+
+        this._myCurrentDelayToRecomputeRotation = Math.random() * (this._myMaxDelayToRecomputeRotation - this._myMinDelayToRecomputeRotation) + this._myMinDelayToRecomputeRotation;
+        this._myCurrentAngleToRecomputeRotation = Math.random() * (this._myMaxThresholdAngle - this._myMinThresholdAngle) + this._myMinThresholdAngle;
+        this._myCurrentMainRotationTargetSpeed = Math.random() * (this._myMaxRotationSpeed - this._myMinRotationSpeed) + this._myMinRotationSpeed;
+
+        this._myRecomputeRotationTimer = 0;
     }
 
     _lookAt(newForward) {
@@ -71,9 +123,9 @@ class CoolMovement {
         this._myObjectToMove.getForward(forward);
         let angleBetween = glMatrix.vec3.angle(forward, newForward);
         if (angleBetween > 0.0001) {
-            console.log(angleBetween);
-            console.log(glMatrix.vec3.dist(forward, newForward));
-            console.log("");
+            //console.log(angleBetween);
+            //console.log(glMatrix.vec3.dist(forward, newForward));
+            //console.log("");
             //console.log(forward, newForward);
             let axis = [];
             glMatrix.vec3.cross(axis, forward, newForward);
@@ -89,10 +141,12 @@ class CoolMovement {
         }
     }
 
-    _checkRetarget() {
+    _checkRetarget(dt) {
+        this._myRetargetTimer += dt;
+
         let retarget = false;
 
-        if (this._myTimer > this._myCurrentDelayToRetarget) {
+        if (this._myRetargetTimer > this._myCurrentDelayToRetarget) {
             retarget = true;
         } else {
             let currentPosition = [];
@@ -106,7 +160,7 @@ class CoolMovement {
 
         if (retarget) {
 
-            this._myTimer = 0;
+            this._myRetargetTimer = 0;
 
             let distance = 0;
             let currentPosition = [];
@@ -126,7 +180,43 @@ class CoolMovement {
             this._myCurrentDelayToRetarget = Math.random() * (this._myMaxDelayToRetarget - this._myMinDelayToRetarget) + this._myMinDelayToRetarget;
             this._myCurrentDistanceToRetarget = Math.random() * (this._myMaxDistanceToRetarget - this._myMinDistanceToRetarget) + this._myMinDistanceToRetarget;
 
-            console.log(this._myTargetPosition);
+            this._computeRotationAxesData(true);
+        }
+
+        return retarget;
+    }
+
+    _checkRecomputeRotation(dt) {
+        this._myRecomputeRotationTimer += dt;
+
+        let recompute = false;
+
+        if (this._myRecomputeRotationTimer > this._myCurrentDelayToRecomputeRotation) {
+            recompute = true;
+        } else {
+            let forward = [];
+            this._myObjectToMove.getForward(forward);
+            if (glMatrix.vec3.angle(forward, this._myOldForward) > 0.001 && this._myRecomputeRotationTimer > 5) {
+                let flatForward = PP.MathUtils.removeComponentAlongAxis(forward, this._myCurrentMainRotationAxis);
+                let flatOldForward = PP.MathUtils.removeComponentAlongAxis(this._myOldForward, this._myCurrentMainRotationAxis);
+
+                let currentPosition = [];
+                this._myObjectToMove.getTranslationWorld(currentPosition);
+                let targetDirection = [];
+                glMatrix.vec3.sub(targetDirection, this._myTargetPosition, currentPosition);
+
+                if (glMatrix.vec3.angle(flatForward, targetDirection) < glMatrix.vec3.angle(flatOldForward, targetDirection) &&
+                    glMatrix.vec3.length(flatForward) > 0.001 && glMatrix.vec3.length(flatOldForward) > 0.001) {
+                    if (glMatrix.vec3.angle(flatForward, targetDirection) > this._myCurrentAngleToRecomputeRotation) {
+                        recompute = true;
+                        console.log("recomputed for angle");
+                    }
+                }
+            }
+        }
+
+        if (recompute) {
+            this._computeRotationAxesData(true);
         }
     }
 }

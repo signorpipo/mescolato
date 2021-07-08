@@ -52,6 +52,13 @@ PP.MathUtils = {
 
         return component;
     },
+    removeComponentAlongAxis(vector, axis) {
+        let componentAlong = PP.MathUtils.getComponentAlongAxis(vector, axis);
+        let component = vector.slice(0);
+        glMatrix.vec3.sub(component, vector, componentAlong);
+
+        return component;
+    },
     getAxes(transform) {
         let rotationMatrix = [];
         glMatrix.mat3.fromQuat(rotationMatrix, transform);

@@ -8,11 +8,17 @@ class Snake {
 
         this._myDT = 0;
 
+        this._myEchoTimer = 0;
+        this._myCurrentEchoDelay = 0;
+
         //Setup
         this._myWaitBeforeSpawnDelay = 5;
-        this._mySpawnDelayList = [0, 10, 8, 7];
+        this._mySpawnDelayList = [0, 8, 6, 4];
 
         this._myFixedDT = 1 / 72;
+
+        this._myMinEchoDelay = 25;
+        this._myMaxEchoDelay = 40;
     }
 
     start() {
@@ -27,7 +33,7 @@ class Snake {
         this._mySnakeSpheresToSpawn = [];
         this._mySnakeSpheres = [];
 
-        let distanceList = [0, 400, 260, 160];
+        let distanceList = [0, 300, 200, 140];
         let spawnTimeList = [4, 3, 2.5, 2];
         let scaleList = [1];
         for (let i = 1; i < 4; i++) {
@@ -116,6 +122,8 @@ class Snake {
 
             if (this._mySnakeSpheresToSpawn.length == 0) {
                 this._myPhase = SnakePhase.DONE;
+                this._myCurrentEchoDelay = Math.random() * (this._myMaxEchoDelay - this._myMinEchoDelay) + this._myMinEchoDelay;
+                this._myEchoTimer = this._myCurrentEchoDelay * 4 / 5;
             }
         }
 
@@ -130,6 +138,13 @@ class Snake {
     }
 
     _done(dt) {
+        this._myEchoTimer += dt;
+        if (this._myEchoTimer > this._myCurrentEchoDelay) {
+            this._myEchoTimer = 0;
+            this._myCurrentEchoDelay = Math.random() * (this._myMaxEchoDelay - this._myMinEchoDelay) + this._myMinEchoDelay;
+
+            this._mySnakeObjectAudio.play();
+        }
         for (let sphere of this._mySnakeSpheres) {
             sphere.update(dt);
         }
