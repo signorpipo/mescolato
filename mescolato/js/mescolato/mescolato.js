@@ -23,6 +23,8 @@ WL.registerComponent('mescolato', {
         this._myWait2Timer = 6.5;
 
         this._mySphereDome = new SpheresDome();
+        this._mySphereDome.start();
+
         this._mySnake = new Snake();
 
         this._myPhase = MescolatoPhase.WAIT_SESSION;
@@ -59,7 +61,6 @@ WL.registerComponent('mescolato', {
         if (this._myWait1Timer <= 0) {
             console.log("wait 1 ended");
             this._myPhase = MescolatoPhase.SPHERE;
-            this._mySphereDome.start();
         }
     },
     _sphere: function (dt) {

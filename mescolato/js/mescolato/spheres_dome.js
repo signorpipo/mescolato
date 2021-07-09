@@ -42,7 +42,7 @@ class SpheresDome {
     }
 
     _spawn(dt) {
-        let spheresToSpawnAtTimeout = 6;
+        let spheresToSpawnAtTimeout = 7;
 
         this._myCurrentTimer += dt;
         this._myUseAudioTimer += dt;
@@ -102,7 +102,7 @@ class SpheresDome {
         this._mySpheres = [];
         this._mySpheresToSpawn = [];
 
-        let cloves = 48;
+        let cloves = 54;
         let angleForClove = Math.PI * 2 / cloves;
 
         let minDistance = 25;
