@@ -40,6 +40,10 @@ class DomeSphere {
             this._myAudio = this._mySphereObject.addComponent("custom-howler-audio-source", { "src": "assets/audio/sphere.mp3" });
             let pitch = Math.random() * (1.5 - 0.75) + 0.75;
             this._myAudio.pitch(pitch);
+            this._myAudio.audio.on('end', function () {
+                this._myAudio.active = false;
+            }.bind(this));
+
             this._myAudio.play();
         }
     }

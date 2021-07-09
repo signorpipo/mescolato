@@ -36,6 +36,10 @@ class SnakeSphere {
         let pitch = Math.random() * (1.1 - 0.9) + 0.9;
         this._myAudio.pitch(pitch);
 
+        this._myAudio.audio.on('end', function () {
+            this._myAudio.active = false;
+        }.bind(this));
+
         this._mySphereObject.resetScaling();
         this._mySphereObject.scale([0, 0, 0]);
         this._mySphereObject.setTranslationWorld([0, 0, 0]);
