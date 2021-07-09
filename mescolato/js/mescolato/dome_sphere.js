@@ -26,16 +26,12 @@ class DomeSphere {
         this._mySphereObject.scale([0, 0, 0]);
         this._mySphereObject.setTranslationWorld([0, 0, 0]);
 
-        this._mySphereObject.active = false;
-
         this._myTimer = 0;
 
         this._myPhase = DomeSpherePhase.MOVING;
     }
 
     spawn(useAudio) {
-        this._mySphereObject.active = true;
-
         if (useAudio) {
             this._myAudio = this._mySphereObject.addComponent("custom-howler-audio-source", { "src": "assets/audio/sphere.mp3" });
             let pitch = Math.random() * (1.5 - 0.75) + 0.75;
